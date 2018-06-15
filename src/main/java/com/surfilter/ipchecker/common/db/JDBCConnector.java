@@ -35,8 +35,7 @@ import com.alibaba.druid.pool.DruidDataSourceFactory;
 
 /**
  * ClassName:JDBCConnector <br/>
- * Function: TODO ADD FUNCTION. <br/>
- * Reason: TODO ADD REASON. <br/>
+ * Function: jdbc连接
  * Date: 2013年11月21日 上午11:03:09 <br/>
  * 
  * @author dengqw

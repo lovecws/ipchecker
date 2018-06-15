@@ -11,7 +11,7 @@ public class SparkClient {
     private static String SPARK_MASTER = "local[2]";
     private static String HADOOP_URL = "hdfs://192.168.11.25:9000";
 
-    private JavaSparkContext sparkContext = null;
+    private static JavaSparkContext sparkContext = null;
 
     public synchronized JavaSparkContext javaSparkContext() {
         if (sparkContext == null) {

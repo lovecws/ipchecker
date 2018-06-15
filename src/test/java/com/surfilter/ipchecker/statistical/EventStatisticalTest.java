@@ -67,4 +67,10 @@ public class EventStatisticalTest {
 		String projectDir = System.getProperty("user.dir").replace("\\", "/");
 		EventStatistical.statistical(projectDir+"/event/event20180611141246.json", projectDir+"/event/hubei/event20180611141246_statistical.json");
 	}
+
+	@Test
+	public void statisticalModel(){
+		String projectDir = System.getProperty("user.dir").replace("\\", "/");
+		EventStatistical.statisticalModel(projectDir+"/event/jiangxi/20180612160305/part-00000", projectDir+"/event/jiangxi/20180612160305/statistical.csv");
+	}
 }
