@@ -13,7 +13,7 @@ public class JDBCServiceTest {
     @Test
     public void createTable() {
         String creatsql = "CREATE TABLE event_hubei_201806120926(ip varchar(32) not null,event_type varchar(32) not null,ip_operator varchar(32))";
-        jdbcService.createTable(creatsql);
+        jdbcService.createTable(creatsql, null);
     }
 
     @Test
@@ -23,19 +23,21 @@ public class JDBCServiceTest {
 
     @Test
     public void dropTable() {
-        jdbcService.dropTable("IPCHECKER_HUBEI_20180612");
+        jdbcService.dropTable("ipchecker_hubei_20180615");
     }
 
     @Test
     public void buildJangxiData() {
         String filePath = System.getProperty("user.dir").replace("\\", "/");
-        jdbcService.buildData(filePath + "/event/jiangxi/20180612160305/part-00000", "ipchecker_jiangxi_20180612", new String[]{"ip", "ipOperator", "eventType"}, ",",true);
+        String modelPath = filePath + "/event/jiangxi/20180612160305/model.json";//匹配的事件列表
+        jdbcService.buildJSONData(modelPath, "ipchecker_jiangxi_20180615", false);
     }
 
     @Test
     public void buildHubeiData() {
         String filePath = System.getProperty("user.dir").replace("\\", "/");
-        jdbcService.buildData(filePath + "/event/hubei/20180612181436/model.csv", "ipchecker_hubei_20180612", new String[]{"ip", "ipOperator", "eventType"}, " ",false);
+        String modelPath = filePath + "/event/hubei/20180615142800/model.json";//匹配的事件列表
+        jdbcService.buildJSONData(modelPath, "ipchecker_hubei_20180615", false);
     }
 
     @Test

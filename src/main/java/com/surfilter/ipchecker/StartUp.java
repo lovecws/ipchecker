@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StartUp {
 
@@ -44,27 +46,35 @@ public class StartUp {
             eventDir.mkdirs();
         }
 
-        String ipPath = filePath + "/ip.csv";//ip 文件列表
-        String eventPath = filePath + "/event.json";//匹配的事件列表
-        String modelPath = filePath + "/model.csv";//匹配的事件列表
-        String statisticalPath = filePath + "/statistical.csv";//统计结果
-
+        String sourcePath = filePath + "/source.json";//ip 文件列表
+        String modelPath = filePath + "/model.json";//匹配的事件列表
+        String statisticalPath = filePath + "/statistical.txt";//统计结果
+        //从数据源录入的字段数据
+        String[] sourceFiedls = new String[]{"ip_str",
+                "location.city.zh-CN",
+                "product.vendor",
+                "product.vendorcn",
+                "device.primary_type",
+                "device.secondary_type",
+                "service"};
         // 从es中获取数据 然后将抽取的ip数据写入到json文件中
-        EsDataService esDataService = new EsDataService(sourceEsHost, sourceEsIndexName, sourceEsIndexType);
-        esDataService.extractData(sourceEsFieldName, sourceEsFieldValue, batchSize, ipPath);
+        EsDataService esDataService = new EsDataService(sourceEsHost, sourceEsIndexName, sourceEsIndexType, sourceFiedls);
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put(sourceEsFieldName, sourceEsFieldValue);
+        esDataService.extractData(paramMap, batchSize, sourcePath);
 
         //使用eschecker来检测数据 并将结果写入到json文件中
         EsChecker esChecker = new EsChecker();
-        esChecker.check(ipPath, eventPath);
         //模型抽取
-        esChecker.model(eventPath, modelPath);
+        String[] modelFields = new String[]{"ip_operator", "event_desc", "key"};
+        esChecker.model(sourcePath, modelPath, modelFields);
 
         // 数据统计 将结果数据输出到文本文件中
-        EventStatistical.statistical(eventPath, statisticalPath);
+        EventStatistical.statistical(modelPath, statisticalPath);
 
         //将数据结果写入到数据库中
         JDBCService jdbcService = new JDBCService();
-        jdbcService.buildData(modelPath, "ipchecker_" + hanYuPinyinString + "_" + dateFormat.format(new Date()), null, " ",false);
+        jdbcService.buildJSONData(modelPath, "ipchecker_" + hanYuPinyinString + "_" + dateFormat.format(new Date()), false);
     }
 
     public static void main(String[] args) {

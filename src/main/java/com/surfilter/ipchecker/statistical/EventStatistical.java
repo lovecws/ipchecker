@@ -39,16 +39,16 @@ public class EventStatistical {
             writeEvent("事件类型统计结果", bufferedWriter, eventTypeMap);
 
             // 统计运营商
-            Map<String, Integer> ipOperatorMap = fieldCounter("latestRecord.ip_operator", sourcePath, null);
+            Map<String, Integer> ipOperatorMap = fieldCounter("ipOperator", sourcePath, null);
             writeEvent("运营商统计结果", bufferedWriter, ipOperatorMap);
 
             // 统计事件类型下的运营商
-            Map<String, Integer> eventTypeAndIpOperatorMap = fieldCounter("eventDesc,latestRecord.ip_operator", sourcePath,
+            Map<String, Integer> eventTypeAndIpOperatorMap = fieldCounter("eventDesc,ipOperator", sourcePath,
                     null);
             writeEvent("事件类型下的运营商统计结果", bufferedWriter, eventTypeAndIpOperatorMap);
 
             // 统计运营商下的事件类型
-            Map<String, Integer> ipOperatorAndEventTypeMap = fieldCounter("latestRecord.ip_operator,eventDesc", sourcePath,
+            Map<String, Integer> ipOperatorAndEventTypeMap = fieldCounter("ipOperator,eventDesc", sourcePath,
                     null);
             writeEvent("运营商下的事件类型统计结果", bufferedWriter, ipOperatorAndEventTypeMap);
         } catch (Exception e) {
@@ -132,12 +132,12 @@ public class EventStatistical {
     /**
      * 基于模型的统计
      *
-     * @param sourcePath
+     * @param modelPath
      * @param outputPath
      */
-    public static void statisticalModel(String sourcePath, String outputPath) {
+    public static void statisticalModel(String modelPath, String outputPath) {
         log.info("开始事件统计分析.................................................");
-        if (sourcePath == null || outputPath == null) {
+        if (modelPath == null || outputPath == null) {
             throw new IllegalArgumentException();
         }
 
@@ -149,20 +149,20 @@ public class EventStatistical {
             bufferedWriter.newLine();
 
             // 统计事件类型
-            Map<String, Integer> eventTypeMap = fieldModelCounter("2", sourcePath, null);
+            Map<String, Integer> eventTypeMap = fieldModelCounter("2", modelPath, null);
             writeEvent("事件类型统计结果", bufferedWriter, eventTypeMap);
 
             // 统计运营商
-            Map<String, Integer> ipOperatorMap = fieldModelCounter("1", sourcePath, null);
+            Map<String, Integer> ipOperatorMap = fieldModelCounter("1", modelPath, null);
             writeEvent("运营商统计结果", bufferedWriter, ipOperatorMap);
 
             // 统计事件类型下的运营商
-            Map<String, Integer> eventTypeAndIpOperatorMap = fieldModelCounter("2,1", sourcePath,
+            Map<String, Integer> eventTypeAndIpOperatorMap = fieldModelCounter("2,1", modelPath,
                     null);
             writeEvent("事件类型下的运营商统计结果", bufferedWriter, eventTypeAndIpOperatorMap);
 
             // 统计运营商下的事件类型
-            Map<String, Integer> ipOperatorAndEventTypeMap = fieldModelCounter("1,2", sourcePath,
+            Map<String, Integer> ipOperatorAndEventTypeMap = fieldModelCounter("1,2", modelPath,
                     null);
             writeEvent("运营商下的事件类型统计结果", bufferedWriter, ipOperatorAndEventTypeMap);
         } catch (Exception e) {
@@ -275,6 +275,5 @@ public class EventStatistical {
         } catch (Exception e) {
             log.error(e);
         }
-
     }
 }

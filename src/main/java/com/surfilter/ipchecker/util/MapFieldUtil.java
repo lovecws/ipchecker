@@ -1,5 +1,8 @@
 package com.surfilter.ipchecker.util;
 
+import com.alibaba.fastjson.JSONArray;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class MapFieldUtil {
@@ -19,9 +22,20 @@ public class MapFieldUtil {
         Map map = _sourceMap;
         for (int i = 0; i < fieldNames.length; i++) {
             Object object = map.get(fieldNames[i]);
+            if (object == null) {
+                return "";
+            }
             if (i == fieldNames.length - 1) {
-                return object != null ? object.toString() : null;
+                return object != null ? object.toString() : "";
             } else {
+                if (object instanceof JSONArray) {
+                    JSONArray jsonArray = (JSONArray) object;
+                    if (jsonArray.size() > 0) {
+                        object = jsonArray.get(0);
+                    } else {
+                        object = new HashMap<>();
+                    }
+                }
                 map = (Map) object;
             }
         }
