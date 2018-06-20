@@ -23,7 +23,7 @@ public class JDBCServiceTest {
 
     @Test
     public void dropTable() {
-        jdbcService.dropTable("ipchecker_hubei_20180615");
+        jdbcService.dropTable("ipchecker_jiangxi_20180620");
     }
 
     @Test

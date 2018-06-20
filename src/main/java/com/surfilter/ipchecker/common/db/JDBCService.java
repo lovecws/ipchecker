@@ -34,7 +34,7 @@ public class JDBCService {
         while (iterator.hasNext()) {
             String newField = iterator.next().toString().replace(".", "_");
             newField = newField.replace("-", "_");
-            CREATE_SQL_BUILDER.append(newField + " varchar(50)");
+            CREATE_SQL_BUILDER.append(newField + " varchar(255)");
             if (iterator.hasNext()) {
                 CREATE_SQL_BUILDER.append(",");
             }
@@ -330,9 +330,17 @@ public class JDBCService {
                     continue;
                 }
                 Map<String, Object> modelMap = JSON.parseObject(readLine, Map.class);
+                log.info(JSON.toJSONString(modelMap));
 
                 if (fieldSet == null || fieldSet.size() == 0) {
-                    fieldSet = modelMap.keySet();
+                    //字段按照key排序
+                    Map<String, Object> treeMap = new TreeMap<String, Object>(new Comparator<String>() {
+                        public int compare(String obj1, String obj2) {
+                            return obj2.compareTo(obj1);
+                        }
+                    });
+                    treeMap.putAll(modelMap);
+                    fieldSet = treeMap.keySet();
                 }
 
                 //是否去除重复
@@ -352,6 +360,7 @@ public class JDBCService {
             }
         } catch (Exception e) {
             log.error(e);
+            e.printStackTrace();
         } finally {
             if (bufferedReader != null) {
                 try {
@@ -359,9 +368,6 @@ public class JDBCService {
                 } catch (IOException e) {
                 }
             }
-        }
-        for (Map map : events) {
-            log.info(JSON.toJSONString(map));
         }
         log.info("total records " + events.size());
 
