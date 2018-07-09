@@ -1,4 +1,4 @@
-package com.surfilter.ipchecker.exploit;
+package com.surfilter.ipchecker.extract;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Logger;
@@ -7,9 +7,9 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IPModel {
+public class EventHDFSDataExtract {
 
-    public static final Logger log = Logger.getLogger(IPModel.class);
+    public static final Logger log = Logger.getLogger(EventHDFSDataExtract.class);
 
     /**
      * 往数据模型里面添加 运营商和僵木控制字段
@@ -18,7 +18,7 @@ public class IPModel {
      * @param checkerPath 匹配文件
      * @param ipModelPath 输出文件
      */
-    public void model(String modelPath, String checkerPath, String ipModelPath) {
+    public void extract(String modelPath, String checkerPath, String ipModelPath) {
         if (modelPath == null || checkerPath == null || ipModelPath == null) {
             throw new IllegalArgumentException();
         }

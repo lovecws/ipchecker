@@ -1,20 +1,18 @@
-package com.surfilter.ipchecker.checker;
+package com.surfilter.ipchecker.extract;
 
 import com.alibaba.fastjson.JSON;
-import com.surfilter.ipchecker.entity.EventRecordEntity;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
  * 检测ip
  */
-public abstract class BaseChecker {
+public abstract class BaseDataExtract {
 
-    public static final Logger log = Logger.getLogger(BaseChecker.class);
+    public static final Logger log = Logger.getLogger(BaseDataExtract.class);
 
     /**
      * @param sourcePath  ip来源文件
@@ -42,7 +40,7 @@ public abstract class BaseChecker {
      *                    "use_unit":"",
      *                    "key":"767e513f443887b920171201"}
      */
-    public abstract void model(String sourcePath, String modelPath, String[] modelFields);
+    public abstract void extract(String sourcePath, String modelPath, String[] modelFields);
 
     /**
      * 将ip匹配到的事件写入到json文件中

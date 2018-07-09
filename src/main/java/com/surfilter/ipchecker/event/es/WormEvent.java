@@ -1,4 +1,4 @@
-package com.surfilter.ipchecker.event;
+package com.surfilter.ipchecker.event.es;
 
 import com.surfilter.ipchecker.entity.EventRecordEntity;
 

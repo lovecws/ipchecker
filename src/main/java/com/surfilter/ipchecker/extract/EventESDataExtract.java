@@ -1,8 +1,8 @@
-package com.surfilter.ipchecker.checker;
+package com.surfilter.ipchecker.extract;
 
 import com.alibaba.fastjson.JSON;
 import com.surfilter.ipchecker.entity.EventRecordEntity;
-import com.surfilter.ipchecker.util.EventUtil;
+import com.surfilter.ipchecker.event.EsEventService;
 import com.surfilter.ipchecker.util.MapFieldUtil;
 import org.apache.log4j.Logger;
 
@@ -15,12 +15,12 @@ import java.util.UUID;
 /**
  * 使用es来检测数据
  */
-public class EsChecker extends BaseChecker {
+public class EventESDataExtract extends BaseDataExtract {
 
-    public static final Logger log = Logger.getLogger(EsChecker.class);
+    public static final Logger log = Logger.getLogger(EventESDataExtract.class);
 
     @Override
-    public void model(String sourcePath, String modelPath, String[] modelFields) {
+    public void extract(String sourcePath, String modelPath, String[] modelFields) {
         log.info("开始模型抽取.................................................");
         if (sourcePath == null || modelPath == null || modelFields == null) {
             throw new IllegalArgumentException();
@@ -41,7 +41,7 @@ public class EsChecker extends BaseChecker {
                 sourceMap.put("key", UUID.randomUUID().toString().replace("-", ""));
                 String ip_str = sourceMap.get("ip_str").toString();
                 //解析文本 每行文本都是一个ip  使用ip来匹配es索引
-                List<EventRecordEntity> eventRecords = EventUtil.event(ip_str, null);
+                List<EventRecordEntity> eventRecords = EsEventService.esEvent(ip_str, null);
                 if (eventRecords != null && eventRecords.size() > 0) {
                     for (EventRecordEntity eventRecordEntity : eventRecords) {
                         Map<String, Object> recordMap = new HashMap<String, Object>();

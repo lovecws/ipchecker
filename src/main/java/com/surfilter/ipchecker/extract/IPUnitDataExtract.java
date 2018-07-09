@@ -1,4 +1,4 @@
-package com.surfilter.ipchecker.exploit;
+package com.surfilter.ipchecker.extract;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -18,11 +18,11 @@ import java.util.Properties;
 /**
  * 根据ip地址信息 查找到ip的具体单位信息
  */
-public class IPUnitModel {
+public class IPUnitDataExtract {
 
-    public static final Logger log = Logger.getLogger(IPUnitModel.class);
+    public static final Logger log = Logger.getLogger(IPUnitDataExtract.class);
 
-    public void model(String sourcePath, String outputPath) {
+    public void extract(String sourcePath, String outputPath) {
         if (sourcePath == null || outputPath == null) {
             throw new IllegalArgumentException();
         }
@@ -97,7 +97,7 @@ public class IPUnitModel {
     private String user;
     private String password;
 
-    public IPUnitModel(String driver, String url, String user, String password) {
+    public IPUnitDataExtract(String driver, String url, String user, String password) {
         this.driver = driver;
         this.url = url;
         this.user = user;

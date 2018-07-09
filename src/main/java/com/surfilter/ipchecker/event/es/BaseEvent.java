@@ -1,4 +1,4 @@
-package com.surfilter.ipchecker.event;
+package com.surfilter.ipchecker.event.es;
 
 import java.util.Map;
 
