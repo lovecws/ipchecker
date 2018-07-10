@@ -14,7 +14,7 @@ public class Main {
     /**
      * 开始湖北任务
      */
-    public void startHubeiTask() {
+    public static void startHubeiTask() {
         TaskService taskService = new TaskService();
         taskService.startSimpleTask("http://172.31.134.229:9200",
                 "wscan",
@@ -25,7 +25,7 @@ public class Main {
                 null);
     }
 
-    public void startJiangxiTask() {
+    public static void startJiangxiTask() {
         TaskService exploitMain = new TaskService(true, "hdfs", true, true, true, true);
         exploitMain.startTask("http://172.31.134.229:9200",
                 "wscan",
@@ -36,7 +36,7 @@ public class Main {
                 null);
     }
 
-    public void startAnhuiTask() {
+    public static void startAnhuiTask() {
         TaskService exploitMain = new TaskService(false, null, true, false, true, true);
         exploitMain.startTask("http://172.31.134.229:9200",
                 "wscan",
@@ -48,5 +48,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        startAnhuiTask();
     }
 }

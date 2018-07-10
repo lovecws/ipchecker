@@ -2,6 +2,10 @@ package com.surfilter.ipchecker.statistical.spark;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SparkSession;
+
+import java.io.File;
 
 /**
  * 获取到spark的连接
@@ -27,6 +31,33 @@ public class SparkClient {
             }
         }
         return sparkContext;
+    }
+
+    public synchronized SQLContext sqlContext() {
+        String userDir = System.getProperty("user.dir");
+        SparkSession sparkSession = SparkSession
+                .builder()
+                .master(getMaster())
+                .appName("mumuSqlSpark")
+                .config("spark.sql.warehouse.dir", userDir + File.separator + "spark-warehouse")
+                .config("spark.driver.allowMultipleContexts", true)
+                .getOrCreate();
+        SQLContext sqlContext = new SQLContext(sparkSession);
+        return sqlContext;
+    }
+
+    public synchronized SQLContext hiveContext() {
+        String userDir = System.getProperty("user.dir");
+        SparkSession sparkSession = SparkSession
+                .builder()
+                .master(getMaster())
+                .appName("mumuHiveSpark")
+                .config("spark.sql.warehouse.dir", userDir + File.separator + "hive-warehouse")
+                .config("spark.driver.allowMultipleContexts", true)
+                .enableHiveSupport()
+                .getOrCreate();
+        SQLContext sqlContext = new SQLContext(sparkSession);
+        return sqlContext;
     }
 
     /**

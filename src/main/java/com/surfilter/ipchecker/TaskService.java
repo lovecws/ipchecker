@@ -54,7 +54,6 @@ public class TaskService {
         String exploitModelPath = filePath + "/exploit_model.json";//匹配的漏洞
         String ipUnitModelPath = filePath + "/ipunit_model.json";//根据ipstr匹配ip单位
         String statisticalPath = filePath + "/exploit_statistical.txt";//统计结果
-        String nextTempPath = null;
 
         //从数据源录入的字段数据
         String[] sourceFiedls = new String[]{"ip_str",
@@ -72,6 +71,7 @@ public class TaskService {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put(sourceEsFieldName, sourceEsFieldValue);
         esDataService.extractData(paramMap, batchSize, sourcePath);
+        String nextTempPath=sourcePath;
 
         //往数据模型里面添加 运营商和僵木控制字段
         if (hasEvent) {
@@ -115,13 +115,13 @@ public class TaskService {
 
         //不区分IOT ICS统计
         if (hasStatistical) {
-            ExploitStatistical exploitStatistical = new ExploitStatistical(null, null);
+            ExploitStatistical exploitStatistical = new ExploitStatistical(null, null,sourceEsFieldValue);
             exploitStatistical.statistical(nextTempPath, statisticalPath);
             //iot 物联统计
-            ExploitStatistical IOTExploitStatistical = new ExploitStatistical("device.primary_type", "IOT");
+            ExploitStatistical IOTExploitStatistical = new ExploitStatistical("device.primary_type", "IOT",sourceEsFieldValue);
             IOTExploitStatistical.statistical(nextTempPath, statisticalPath);
             //ICS 工控统计
-            ExploitStatistical ICSexploitStatistical = new ExploitStatistical("device.primary_type", "ICS");
+            ExploitStatistical ICSexploitStatistical = new ExploitStatistical("device.primary_type", "ICS",sourceEsFieldValue);
             ICSexploitStatistical.statistical(nextTempPath, statisticalPath);
         }
 
